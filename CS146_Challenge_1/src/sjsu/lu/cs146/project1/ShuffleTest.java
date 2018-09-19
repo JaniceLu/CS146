@@ -1,9 +1,7 @@
 /**
- *  The purpose of this program is to take in a file 
- *  containing a list of songs and place 
- *  them in an array to be shuffled according 
- *  to the Fisher-Yates shuffle algorithm. 
- *  @author janice_lu
+ * The purpose of this .java file is to test the methods of 
+ * Shuffle.java using JUnit tests.
+ * @author janice_lu
  */
 package sjsu.lu.cs146.project1;
 
@@ -13,6 +11,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,11 +50,12 @@ public class ShuffleTest
    @Test
    public void testSongToArray() throws IOException
    {
-      fail("Not yet implemented"); // TODO
+	  i= 0;
       BufferedReader In = new BufferedReader (new FileReader ("Playlist.txt"));
+      shuffleTester.songToArray();
       while ((expectedLine = In.readLine()) != null) 
       {
-         String actualLine = originalPlaylist[i];
+         String actualLine = shuffleTester.originalSongOrder[i];
          assertEquals(expectedLine, actualLine);
          i++;
       }
@@ -72,16 +72,18 @@ public class ShuffleTest
    @Test
    public void testShuffleSongs() throws IOException
    {
-      fail("Not yet implemented"); // TODO
-      BufferedReader Out = new BufferedReader (new FileReader ("Playlist.txt"));
-      BufferedReader In = new BufferedReader (new FileReader ("Target1.txt"));
-      while ((expectedLine = In.readLine()) != null) 
-      {
-         String actualLine = Out.readLine();
-         assertEquals(expectedLine, actualLine);
-      }
-      Out.close();
-      In.close();
-   }
+	   shuffleTester.songToArray();
+	   shuffleTester.shuffleSongs();
+	   BufferedReader Out = new BufferedReader (new FileReader ("LuJanicePlaylist.txt"));
+	   BufferedReader In = new BufferedReader (new FileReader ("Target1.txt"));
 
+	   while ((expectedLine = In.readLine()) != null) 
+	   {     
+		   String actualLine = Out.readLine();
+		   assertEquals(expectedLine, actualLine);   
+	   }
+	   Out.close();
+	   In.close();
+   }
+   
 }
