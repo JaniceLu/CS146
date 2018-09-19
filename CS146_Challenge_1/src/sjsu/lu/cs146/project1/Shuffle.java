@@ -17,8 +17,17 @@ import java.util.Random;
 public class Shuffle
 {
 	//a String array to hold the songs from the original file
-	String[] originalSongOrder;
+	public String[] originalSongOrder;
 	
+	//Pseudo-random number to be used for Fisher-Yates shuffle
+    private Random r = new Random();
+    
+    //String to put song name into for inserting into String array
+	private String songName;
+	
+    //integer for iterating String array
+    int i;
+    
 	/**
 	 * This method takes a file and takes each line and inserts
 	 * it into a String array.
@@ -27,11 +36,6 @@ public class Shuffle
 	 */
    public String[] songToArray() throws IOException 
    {
-	   //String to put song name into for inserting into String array
-	   String songName;
-	   
-	   //integer for iterating String array
-	   int i = 0;
 	   
 	   //input stream that reads in info from playlist.txt
 	   BufferedReader In = new BufferedReader (new FileReader("Playlist.txt"));
@@ -41,7 +45,9 @@ public class Shuffle
 		   originalSongOrder[i] = songName;
 		   i++;
 	   }
+	   
 	   In.close();
+	   
 	   return originalSongOrder;
    }
    
@@ -53,8 +59,15 @@ public class Shuffle
     */
    public void shuffleSongs() throws IOException
    {
-       Random r = new Random();
-       r.setSeed(20);
+       
+	   r.setSeed(20);
+       
+       /*
+        * For loop is shuffle the String array according to the Fisher-Yates
+        * algorithm. It uses the seeded pseudorandom number as the index to be 
+        * swapped with the current iteration of the array.
+        * 
+        */
        for(int i = originalSongOrder.length - 1; i > 0; i--)
        {
     	   int index = r.nextInt(i);
@@ -62,8 +75,10 @@ public class Shuffle
     	   originalSongOrder[index] = originalSongOrder[i];
     	   originalSongOrder[i] = currentSong;
        }
-      
+       
+       //A stream to write the newly shuffled playlist to the file
        BufferedWriter writeToFile = null;
+       
        writeToFile = new BufferedWriter(new FileWriter("LuJanicePLaylist.txt"));
    
        for(int j = 0; j < originalSongOrder.length; j++)
@@ -71,6 +86,7 @@ public class Shuffle
     	   writeToFile.write(originalSongOrder[j]);
     	   writeToFile.newLine();
        }
+       
        writeToFile.flush();
        writeToFile.close();
    }
@@ -81,5 +97,7 @@ public class Shuffle
    Shuffle()
    {
 	   originalSongOrder = new String[458];
+	   songName = "";
+	   i = 0;
    }
 }

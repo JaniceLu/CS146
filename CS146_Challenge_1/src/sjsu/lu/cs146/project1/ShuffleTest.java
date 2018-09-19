@@ -11,7 +11,6 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -75,7 +74,7 @@ public class ShuffleTest
 	   shuffleTester.songToArray();
 	   shuffleTester.shuffleSongs();
 	   BufferedReader Out = new BufferedReader (new FileReader ("LuJanicePlaylist.txt"));
-	   BufferedReader In = new BufferedReader (new FileReader ("Target1.txt"));
+	   BufferedReader In = new BufferedReader (new FileReader ("Target2.txt"));
 
 	   while ((expectedLine = In.readLine()) != null) 
 	   {     
