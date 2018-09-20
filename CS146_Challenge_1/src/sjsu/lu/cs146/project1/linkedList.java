@@ -5,14 +5,12 @@ public class linkedList {
 	private Node head;
 	private int nodeCount;
 	
-	linkedList()
-	{
+	linkedList() {
 		head = null;
 		nodeCount = 0;
 	}
 	
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 
 		int result = getNodeCount();
 		
@@ -26,8 +24,7 @@ public class linkedList {
 		}
 	}
 	
-	public void insert(int n)
-	{
+	public void insert(int n) {
 		Node temp;
 		
 		if(isEmpty())
@@ -39,6 +36,8 @@ public class linkedList {
 			head.number = 1;
 			setNodeCount(getNodeCount() + 1);
 			n = n - 1;
+			System.out.println("We have "+n+" nodes more to create.");
+			System.out.println("node with number: " + temp.number+"\n");
 		}
 		
 		Node last = head;
@@ -59,27 +58,53 @@ public class linkedList {
 			
 			setNodeCount(getNodeCount()+1);
 			
-			temp.number = getNodeCount()+1;
+			temp.number = getNodeCount();
+			System.out.println("node with number: " + temp.number+"\n");
 		}
 		
 	}
 	
-	public int deleteFirst()
-	{
+	public int deleteFirst() {
 		
 		Node temp = head;
 		
-		int deleted = temp.number;
+		int deleted;
 		
-		if(isEmpty())
+		int current_size = getNodeCount();
+		
+		if(temp == null)
 		{
-			deleted = getNodeCount();
+			deleted = 0;
+		}
+		else if(current_size == 1) 
+		{
+			deleted = head.number;
+			
+			head.prev = null;
+			
+			head.next = null;
+			
+			head = null;
+			
+			temp = null;
+			
+			setNodeCount(getNodeCount() - 1);
+			
 		}
 		else
 		{
-			head.next = head.next.next;
-			head = head.next;
-			head.prev = null;
+			Node previous = head.prev;
+			deleted = head.number;
+			
+			head = temp.next;
+			
+			head.prev = temp.prev;
+			
+			head.next = temp.next.next;
+			
+			previous.next = head;
+			
+			previous.prev = head;
 			
 			setNodeCount(getNodeCount() - 1);
 		}
@@ -87,40 +112,66 @@ public class linkedList {
 		return deleted;
 	}
 	
-	public int deleteAt(int position)
-	{
-		Node current = head;
-		Node previous = head;
-		int deleted;
-		for(int i = 0; i < position; i++)
-		{
-			if(current.next == null)
-			{
-				current = head;
-			}
-			else
-			{
-				previous = current;
-				current = current.next;
-			}
+	public int deleteAt(int position) {
+		if(head == null) {
+			return 0;
 		}
+		Node current = head;
+		Node previous = head.prev;
+		int deleted;
+		System.out.println("At beginning of function: "+ current.number);
+		for(int i = 0; i < position-1; i++)
+		{
+			current = current.next;
+			previous = previous.next;
+			System.out.println(current.number);
+		}
+		System.out.println("Previous is: " + previous.number + "\nCurrent is: "+ current.number +"\n");
 		deleted = current.number;
-		if (position == 0)
+		if (current == head)
 		{
 			deleteFirst();
 		}
 		else
 		{
-			previous = current.next;
+			previous.next = current.next;
+			current.next = null;
+			current.prev = null;
+			setNodeCount(getNodeCount() - 1);
 		}
-		setNodeCount(getNodeCount() - 1);
+		System.out.println("Deleted "+ deleted +". There are " + getNodeCount() + " node(s) left.");
 		return deleted;
 	}
+	
 	public int getNodeCount() {
 		return nodeCount;
 	}
+	
 	public void setNodeCount(int nodeCount) {
 		this.nodeCount = nodeCount;
+	}
+	
+	public int checkNodes() {
+		
+		if(head == null) {
+			return 0;
+		}
+		
+		Node temp = head;
+		
+		int count = 1;
+		
+		if(temp.next == head) {
+			return count;
+		}
+		
+		while(temp.next != head)
+		{
+			temp = temp.next;
+			count++;
+		}
+		
+		return count;
 	}
 	
 }
