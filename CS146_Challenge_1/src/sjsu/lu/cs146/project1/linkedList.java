@@ -13,36 +13,55 @@ public class linkedList {
 	
 	public boolean isEmpty()
 	{
-		boolean t = true;
-		boolean f = false;
+
 		int result = getNodeCount();
-		if(result != 0 || result == null)
+		
+		if(result != 0)
 		{
-			return f;
+			return false;
 		}
 		else 
 		{
-			return t;
+			return true;
 		}
 	}
 	
-	public void add(int n)
+	public void insert(int n)
 	{
-		setNodeCount(getNodeCount() + 1);
-		Node temp = new Node(n);
-		if(head == null) 
+		Node temp;
+		
+		if(isEmpty())
 		{
+			temp = new Node();
 			head = temp;
+			head.prev = head;
+			head.next = head;
+			head.number = 1;
+			setNodeCount(getNodeCount() + 1);
+			n = n - 1;
 		}
-		else
+		
+		Node last = head;
+		for(int i = 0; i < n; i++)
 		{
-			Node newNode = head;
-			while(newNode.next != head)
+			while(last.next != head)
 			{
-				newNode = newNode.next;
+				last = last.next;
 			}
+			temp = new Node();
+			last.next = temp;
+			
+			temp.prev = last;
+			
 			temp.next = head;
+			
+			head.prev = temp;
+			
+			setNodeCount(getNodeCount()+1);
+			
+			temp.number = getNodeCount()+1;
 		}
+		
 	}
 	
 	public int deleteFirst()
@@ -50,16 +69,17 @@ public class linkedList {
 		
 		Node temp = head;
 		
-		int deleted = temp.info;
+		int deleted = temp.number;
 		
 		if(isEmpty())
 		{
-			return deleted;
+			deleted = getNodeCount();
 		}
 		else
 		{
-			
+			head.next = head.next.next;
 			head = head.next;
+			head.prev = null;
 			
 			setNodeCount(getNodeCount() - 1);
 		}
@@ -84,7 +104,7 @@ public class linkedList {
 				current = current.next;
 			}
 		}
-		deleted = current.info;
+		deleted = current.number;
 		if (position == 0)
 		{
 			deleteFirst();
