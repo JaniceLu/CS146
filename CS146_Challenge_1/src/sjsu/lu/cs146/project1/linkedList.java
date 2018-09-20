@@ -2,8 +2,8 @@ package sjsu.lu.cs146.project1;
 
 
 public class linkedList {
-	private Node head;
-	private int nodeCount;
+	Node head;
+	int nodeCount;
 	
 	linkedList() {
 		head = null;
@@ -36,8 +36,6 @@ public class linkedList {
 			head.number = 1;
 			setNodeCount(getNodeCount() + 1);
 			n = n - 1;
-			System.out.println("We have "+n+" nodes more to create.");
-			System.out.println("node with number: " + temp.number+"\n");
 		}
 		
 		Node last = head;
@@ -59,7 +57,6 @@ public class linkedList {
 			setNodeCount(getNodeCount()+1);
 			
 			temp.number = getNodeCount();
-			System.out.println("node with number: " + temp.number+"\n");
 		}
 		
 	}
@@ -70,13 +67,12 @@ public class linkedList {
 		
 		int deleted;
 		
-		int current_size = getNodeCount();
-		
+		int currentSize = getNodeCount();
 		if(temp == null)
 		{
 			deleted = 0;
 		}
-		else if(current_size == 1) 
+		else if(currentSize == 1) 
 		{
 			deleted = head.number;
 			
@@ -96,19 +92,19 @@ public class linkedList {
 			Node previous = head.prev;
 			deleted = head.number;
 			
+			previous.next = head.next;
+			
 			head = temp.next;
 			
-			head.prev = temp.prev;
+			head.prev = previous;
 			
 			head.next = temp.next.next;
 			
-			previous.next = head;
-			
-			previous.prev = head;
+			temp = null;
 			
 			setNodeCount(getNodeCount() - 1);
 		}
-		
+		System.out.println("Delete at " + deleted);
 		return deleted;
 	}
 	
@@ -119,28 +115,35 @@ public class linkedList {
 		Node current = head;
 		Node previous = head.prev;
 		int deleted;
-		System.out.println("At beginning of function: "+ current.number);
-		for(int i = 0; i < position-1; i++)
+		System.out.println("head: "+ current.number);
+		while(current.number != position)
 		{
 			current = current.next;
 			previous = previous.next;
-			System.out.println(current.number);
 		}
-		System.out.println("Previous is: " + previous.number + "\nCurrent is: "+ current.number +"\n");
 		deleted = current.number;
+		System.out.println("Delete at " + deleted);
 		if (current == head)
 		{
-			deleteFirst();
+			System.out.println("delete @ head");
+			return deleteFirst();
 		}
 		else
 		{
+			System.out.println("delete elsewhere");
+			System.out.println("previous: " + previous.number);
+			System.out.println("previous.prev: " + previous.prev.number);
+			System.out.println("previous.next: " + previous.next.number);
 			previous.next = current.next;
-			current.next = null;
-			current.prev = null;
+			current = current.next;
+			current.prev = previous;
+			System.out.println("current.number: " + current.number);
+			System.out.println("current.prev: " + current.prev.number);
+			System.out.println("current.next: " + current.next.number);
 			setNodeCount(getNodeCount() - 1);
+			System.out.println("size of linkedlist: " + getNodeCount());
+			return deleted;
 		}
-		System.out.println("Deleted "+ deleted +". There are " + getNodeCount() + " node(s) left.");
-		return deleted;
 	}
 	
 	public int getNodeCount() {

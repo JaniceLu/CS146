@@ -56,6 +56,7 @@ public class linkedListTest {
 		assertEquals(3, prisoners.deleteFirst());
 		assertEquals(4, prisoners.deleteFirst());
 		assertEquals(5, prisoners.deleteFirst());
+		assertEquals(0, prisoners.deleteFirst());
 	}
 
 	@Test

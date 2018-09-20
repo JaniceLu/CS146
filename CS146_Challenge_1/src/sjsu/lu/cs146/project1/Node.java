@@ -6,6 +6,10 @@ public class Node
 	Node prev;
 	Node next;
 	
-	public Node(){}
-	
+	public Node()
+	{}
+	public Node getNextNode()
+	{
+		return next;
+	}
 }
