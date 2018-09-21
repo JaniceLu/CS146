@@ -1,8 +1,3 @@
-/**
- * The purpose of this .java file is to test the methods of 
- * Shuffle.java using JUnit tests.
- * @author janice_lu
- */
 package sjsu.lu.cs146.project1;
 
 import java.io.BufferedReader;
@@ -14,8 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * The purpose of this .java file is to test the methods of 
+ * Shuffle.java using JUnit tests.
  * @author janice_lu
- *
  */
 public class ShuffleTest
 {
@@ -41,7 +37,8 @@ public class ShuffleTest
    }
 
    /**
-    * Test method for {@link sjsu.lu.cs146.project1.Shuffle#songToArray()}.
+    * Test method for {@link sjsu.lu.cs146.project1.Shuffle#songToArray()}. 
+    * Checks if the songs were tranferred to the String array properly
     * @return No message if all songs have been transferred correctly.
     *         AssertionError if a song has been not transferred correctly from the file
     * @throws IOException 
@@ -50,14 +47,21 @@ public class ShuffleTest
    public void testSongToArray() throws IOException
    {
 	  i= 0;
+	  //A stream to read a file
       BufferedReader In = new BufferedReader (new FileReader ("Playlist.txt"));
+      
       shuffleTester.songToArray();
+      
       while ((expectedLine = In.readLine()) != null) 
       {
-         String actualLine = shuffleTester.originalSongOrder[i];
+    	 //takes a song from the list
+         String actualLine = shuffleTester.songPlayList[i];
+         //the line from the file should be the same as the array
          assertEquals(expectedLine, actualLine);
+         
          i++;
       }
+      
       In.close();
    }
 
@@ -72,17 +76,24 @@ public class ShuffleTest
    public void testShuffleSongs() throws IOException
    {
 	   shuffleTester.songToArray();
+	   
 	   shuffleTester.shuffleSongs();
+	   //A stream to read the results of the shuffled list
 	   BufferedReader Out = new BufferedReader (new FileReader ("LuJanicePlaylist.txt"));
+	   //A stream to read the expected results of the shuffled list
 	   BufferedReader In = new BufferedReader (new FileReader ("Target2.txt"));
 
 	   while ((expectedLine = In.readLine()) != null) 
 	   {     
+		   //A string with the correct song to be compared to
 		   String actualLine = Out.readLine();
+		   //Should return true if songs were shuffled correctly
 		   assertEquals(expectedLine, actualLine);   
 	   }
+	   
 	   Out.close();
+	   
 	   In.close();
-   }
+   } 
    
 }
