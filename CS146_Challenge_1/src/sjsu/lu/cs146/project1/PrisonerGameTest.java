@@ -20,39 +20,45 @@ public class PrisonerGameTest {
 	{
 		PrisonerGame game = new PrisonerGame();
 		
-		int prisonerCount = 1;
+		int prisonerCount = 123456;
 		
-		int elimFactor = 9;
-		
+		int elimFactor = 2;
+		 
 		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
 		assertEquals(0, game.prisoners.getNodeCount()); // Size is 0
 
 		assertEquals(prisonerCount, game.bringPrisoners(prisonerCount));
   
 		assertFalse(game.prisoners.isEmpty()); // after inserting element, list is not empty
-  
-		assertEquals(1, game.winFreedom(elimFactor));
+		assertEquals(123456, game.prisoners.getNodeCount());
+		assertEquals(1, game.winFreedom(elimFactor)); 
 		
-	} 
+	}
 	
 	@Test
 	public void test2PrisonerGame()  
 	{
 		PrisonerGame game = new PrisonerGame();
-		int prisonerCount = 6; 
-		int elimFactor = 2;  
-		game.prisoners.insert(prisonerCount); 
- 
+		int prisonerCount = 1; 
+		int elimFactor = 9;  
+		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
+		assertEquals(0, game.prisoners.getNodeCount()); // Size is 0
+
+		assertEquals(prisonerCount, game.bringPrisoners(prisonerCount));
+  
+		assertFalse(game.prisoners.isEmpty()); // after inserting element, list is not empty
+		assertEquals(1, game.prisoners.getNodeCount());
 		assertEquals(1, game.winFreedom(elimFactor));
-	}
-	@Test 
+	}  
+	@Test  
 	public void test3PrisonerGame() 
 	{
+		fail("Takes too long to test");
 		PrisonerGame game = new PrisonerGame();
 		 
-		int prisonerCount = 12;
+		int prisonerCount = 1234567;
 		
-		int elimFactor = 8; 
+		int elimFactor = 7; 
 		 
 		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
 		assertEquals(0, game.prisoners.getNodeCount()); // Size is 0
@@ -60,8 +66,8 @@ public class PrisonerGameTest {
 		assertEquals(prisonerCount, game.bringPrisoners(prisonerCount));
   
 		assertFalse(game.prisoners.isEmpty()); // after inserting element, list is not empty
-        assertEquals(12, game.prisoners.getNodeCount());
-		assertEquals(2, game.winFreedom(elimFactor));
+      //  assertEquals(1234567, game.prisoners.getNodeCount());
+		assertEquals(4, game.winFreedom(elimFactor));
 		
 	}
 	
@@ -71,7 +77,7 @@ public class PrisonerGameTest {
 		PrisonerGame game = new PrisonerGame();
 		 
 		int prisonerCount = 12;
-		
+		 
 		int elimFactor = 8; 
 		 
 		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
@@ -83,4 +89,41 @@ public class PrisonerGameTest {
         assertEquals(12, game.prisoners.getNodeCount());
 		assertEquals(2, game.winFreedom(elimFactor));	
 	}
-}
+	@Test
+	public void test5PrisonerGame()
+	{
+		PrisonerGame game = new PrisonerGame();
+		 
+		int prisonerCount = 12345;
+		
+		int elimFactor = 1; 
+		 
+		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
+		assertEquals(0, game.prisoners.getNodeCount()); // Size is 0
+
+		assertEquals(prisonerCount, game.bringPrisoners(prisonerCount));
+  
+		assertFalse(game.prisoners.isEmpty()); // after inserting element, list is not empty
+        assertEquals(12345, game.prisoners.getNodeCount());
+		assertEquals(3, game.winFreedom(elimFactor));	
+	}
+	
+	@Test
+	public void test6PrisonerGame()
+	{
+		PrisonerGame game = new PrisonerGame();
+		 
+		int prisonerCount = 6;
+		
+		int elimFactor = 2; 
+		 
+		assertTrue(game.prisoners.isEmpty()); //before inserting, list is empty
+		assertEquals(0, game.prisoners.getNodeCount()); // Size is 0
+
+		assertEquals(prisonerCount, game.bringPrisoners(prisonerCount));
+  
+		assertFalse(game.prisoners.isEmpty()); // after inserting element, list is not empty
+        assertEquals(6, game.prisoners.getNodeCount());
+		assertEquals(1, game.winFreedom(elimFactor));	
+	} 
+} 

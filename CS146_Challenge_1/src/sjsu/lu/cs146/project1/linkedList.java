@@ -11,7 +11,7 @@ public class linkedList {
 		tail = null;
 		nodeCount = 0;
 	} 
-	
+	  
 	public boolean isEmpty() {
 
 		int result = getNodeCount();
@@ -67,99 +67,42 @@ public class linkedList {
 			tail = temp;
 			tail.prev = temp.prev; 
 			tail.next = head;
-		}
+		} 
 		
-	}
-	
-	public int deleteFirst() {
-		
-		Node temp = new Node();
-		 
-		int deleted;
-		
-		
-		if((head == null) && (tail == null))
-		{
-			deleted = 0;
-		}
-		else if((head == tail) && (getNodeCount() == 1)) 
-		{
-			deleted = head.number;
-			
-			head.prev = null;
-			
-			head.next = null; 
-			
-			head = null;
-			
-			tail.prev = null;
-			
-			tail.next = null;
-			
-			tail = null;
-			
-			setNodeCount(getNodeCount() - 1);
-		}
-		else if((head == tail) && (getNodeCount() == 2))
-		{
-			tail.next = tail;
-			tail.prev = tail;
-			deleted = head.number;
-			head = tail;
-			head.next = tail;
-			head.prev = tail;
-			
-			setNodeCount(getNodeCount() - 1);
-		}
-		else 
-		{
-			temp = head.next;
-			tail.next = head.next; 
-			deleted = head.number;
-			head = tail.next; 
-			head.prev = tail;
-			head.next = temp;
-						
-			setNodeCount(getNodeCount() - 1);
-		}
-		return deleted;
 	}
 	
 	public int deleteAt(int position) {
-		if((head == null) && (tail == null)) 
-		{
-			return 0;
-		}
 		Node current = head;
 		Node previous = head.prev;
 		int deleted;
-		System.out.println("head: "+ current.number);
 		while(current.number != position)
 		{
 			current = current.next;
 			previous = previous.next;
-		}
+		} 
 		deleted = current.number;
-		System.out.println("Delete at " + deleted);
-		if (current == head)
+		if(deleted == head.number)
 		{
-			System.out.println("delete @ head");
-			return deleteFirst();   
+			head = head.next;
+			head.prev = previous;
+			tail.next = head;
 		}
-		else
-		{ 
-			previous.next = current.next; 
-			current = current.next;
-			current.prev = previous;
-			setNodeCount(getNodeCount() - 1);
-			return deleted;
+		else if(deleted == tail.number)
+		{
+			tail = tail.prev;
 		}
+		previous.next = current.next; 
+		current = current.next;
+		current.prev = previous;
+		setNodeCount(getNodeCount() - 1);
+		return deleted; 
+		 
 	}
 	
 	public int getNodeCount() {
 		return nodeCount;
 	}
-	
+	  
 	public void setNodeCount(int nodeCount) {
 		this.nodeCount = nodeCount;
 	}
