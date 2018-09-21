@@ -5,9 +5,7 @@ public class Node
 	int number;
 	Node prev;
 	Node next;
-	
-	public Node()
-	{}
+
 	public Node getNextNode()
 	{
 		return next;

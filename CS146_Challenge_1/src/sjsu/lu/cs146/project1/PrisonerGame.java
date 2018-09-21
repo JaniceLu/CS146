@@ -12,29 +12,31 @@ public class PrisonerGame {
 	public int bringPrisoners(int prisonerQueue) 
 	{
 		prisoners.insert(prisonerQueue);
-		return prisoners.getNodeCount();
+		return prisoners.getNodeCount(); 
 	}
-	
+	 
 	public int winFreedom(int elimFactor) 
 	{
-		int iterations = 0;
-		int deletedNumber = 0;
-		Node toDelete = prisoners.head;
-		while(prisoners.getNodeCount() > 1)
+		int deletedNumber = 0; 
+		int winner = 0;
+		Node toDelete = prisoners.head;  
+		while(prisoners.getNodeCount() != 1) 
 		{
-			System.out.println("count is: " + prisoners.getNodeCount());
-			for(int i = 0; i < elimFactor - 1; i++)
-			{
+			System.out.println("There are " + prisoners.getNodeCount() + " prisoners left.");
+			for(int i = 0; i < elimFactor; i++)
+			{ 
 				toDelete = toDelete.next;
-				System.out.println("i: " + i + "\nnext: "+ toDelete.number);
+				
 			}
 			System.out.println("Delete this node: " + toDelete.number);
 			deletedNumber = toDelete.number;
-			toDelete = toDelete.next;
-			prisoners.deleteAt(deletedNumber);
-		
+			toDelete = toDelete.next; 
+			deletedNumber = prisoners.deleteAt(deletedNumber);
 		}
-		return deletedNumber;
+		
+		winner = prisoners.head.number;
+		
+		return winner; 
 	}
 	
 	

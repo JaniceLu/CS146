@@ -3,12 +3,14 @@ package sjsu.lu.cs146.project1;
 
 public class linkedList {
 	Node head;
+	Node tail;
 	int nodeCount;
 	
 	linkedList() {
 		head = null;
+		tail = null;
 		nodeCount = 0;
-	}
+	} 
 	
 	public boolean isEmpty() {
 
@@ -31,9 +33,14 @@ public class linkedList {
 		{
 			temp = new Node();
 			head = temp;
-			head.prev = head;
-			head.next = head;
+			tail = head;
+			tail.prev = head;
+			tail.next = head;
+			head.prev = tail;
+			head.next = tail;
+			tail.number = 1;
 			head.number = 1;
+			
 			setNodeCount(getNodeCount() + 1);
 			n = n - 1;
 		}
@@ -41,13 +48,13 @@ public class linkedList {
 		Node last = head;
 		for(int i = 0; i < n; i++)
 		{
-			while(last.next != head)
+			while (last.next != head) 
 			{
 				last = last.next;
 			}
 			temp = new Node();
 			last.next = temp;
-			
+			 
 			temp.prev = last;
 			
 			temp.next = head;
@@ -57,59 +64,70 @@ public class linkedList {
 			setNodeCount(getNodeCount()+1);
 			
 			temp.number = getNodeCount();
+			tail = temp;
+			tail.prev = temp.prev; 
+			tail.next = head;
 		}
 		
 	}
 	
 	public int deleteFirst() {
 		
-		Node temp = head;
-		
+		Node temp = new Node();
+		 
 		int deleted;
 		
-		int currentSize = getNodeCount();
-		if(temp == null)
+		
+		if((head == null) && (tail == null))
 		{
 			deleted = 0;
 		}
-		else if(currentSize == 1) 
+		else if((head == tail) && (getNodeCount() == 1)) 
 		{
 			deleted = head.number;
 			
 			head.prev = null;
 			
-			head.next = null;
+			head.next = null; 
 			
 			head = null;
 			
-			temp = null;
+			tail.prev = null;
+			
+			tail.next = null;
+			
+			tail = null;
 			
 			setNodeCount(getNodeCount() - 1);
-			
 		}
-		else
+		else if((head == tail) && (getNodeCount() == 2))
 		{
-			Node previous = head.prev;
+			tail.next = tail;
+			tail.prev = tail;
 			deleted = head.number;
-			
-			previous.next = head.next;
-			
-			head = temp.next;
-			
-			head.prev = previous;
-			
-			head.next = temp.next.next;
-			
-			temp = null;
+			head = tail;
+			head.next = tail;
+			head.prev = tail;
 			
 			setNodeCount(getNodeCount() - 1);
 		}
-		System.out.println("Delete at " + deleted);
+		else 
+		{
+			temp = head.next;
+			tail.next = head.next; 
+			deleted = head.number;
+			head = tail.next; 
+			head.prev = tail;
+			head.next = temp;
+						
+			setNodeCount(getNodeCount() - 1);
+		}
 		return deleted;
 	}
 	
 	public int deleteAt(int position) {
-		if(head == null) {
+		if((head == null) && (tail == null)) 
+		{
 			return 0;
 		}
 		Node current = head;
@@ -126,22 +144,14 @@ public class linkedList {
 		if (current == head)
 		{
 			System.out.println("delete @ head");
-			return deleteFirst();
+			return deleteFirst();   
 		}
 		else
-		{
-			System.out.println("delete elsewhere");
-			System.out.println("previous: " + previous.number);
-			System.out.println("previous.prev: " + previous.prev.number);
-			System.out.println("previous.next: " + previous.next.number);
-			previous.next = current.next;
+		{ 
+			previous.next = current.next; 
 			current = current.next;
 			current.prev = previous;
-			System.out.println("current.number: " + current.number);
-			System.out.println("current.prev: " + current.prev.number);
-			System.out.println("current.next: " + current.next.number);
 			setNodeCount(getNodeCount() - 1);
-			System.out.println("size of linkedlist: " + getNodeCount());
 			return deleted;
 		}
 	}
@@ -152,29 +162,6 @@ public class linkedList {
 	
 	public void setNodeCount(int nodeCount) {
 		this.nodeCount = nodeCount;
-	}
-	
-	public int checkNodes() {
-		
-		if(head == null) {
-			return 0;
-		}
-		
-		Node temp = head;
-		
-		int count = 1;
-		
-		if(temp.next == head) {
-			return count;
-		}
-		
-		while(temp.next != head)
-		{
-			temp = temp.next;
-			count++;
-		}
-		
-		return count;
 	}
 	
 }
