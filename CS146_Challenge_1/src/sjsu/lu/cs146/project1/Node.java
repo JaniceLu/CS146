@@ -6,7 +6,6 @@ package sjsu.lu.cs146.project1;
  */
 public class Node 
 {
-
 	/*
 	 * the numerical data by which the program 
 	 * identifies the prisoner in the linked list
@@ -16,5 +15,4 @@ public class Node
 	Node prev;
 	//the next node
 	Node next;
-
 }

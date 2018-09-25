@@ -17,12 +17,12 @@ public class ShuffleTest
 {
    //instance of class object to be used in JUnit test
    Shuffle shuffleTester;
-   
+
    //to be used in JUnit test to check test output
    String expectedLine, actualLine;
    
    //string array to hold songs from playlist
-   String[] originalPlaylist = new String[256];
+   String[] originalPlaylist = new String[256]; 
    
    //to be used for iterating through indexes in tests
    int i;
@@ -49,19 +49,15 @@ public class ShuffleTest
 	  i= 0;
 	  //A stream to read a file
       BufferedReader In = new BufferedReader (new FileReader ("Playlist.txt"));
-      
       shuffleTester.songToArray();
-      
       while ((expectedLine = In.readLine()) != null) 
       {
     	 //takes a song from the list
          String actualLine = shuffleTester.songPlayList[i];
          //the line from the file should be the same as the array
          assertEquals(expectedLine, actualLine);
-         
          i++;
       }
-      
       In.close();
    }
 
@@ -75,14 +71,12 @@ public class ShuffleTest
    @Test
    public void testShuffleSongs() throws IOException
    {
-	   shuffleTester.songToArray();
-	   
+	   shuffleTester.songToArray();   
 	   shuffleTester.shuffleSongs();
 	   //A stream to read the results of the shuffled list
 	   BufferedReader Out = new BufferedReader (new FileReader ("LuJanicePlaylist.txt"));
 	   //A stream to read the expected results of the shuffled list
 	   BufferedReader In = new BufferedReader (new FileReader ("Target2.txt"));
-
 	   while ((expectedLine = In.readLine()) != null) 
 	   {     
 		   //A string with the correct song to be compared to
@@ -90,9 +84,7 @@ public class ShuffleTest
 		   //Should return true if songs were shuffled correctly
 		   assertEquals(expectedLine, actualLine);   
 	   }
-	   
 	   Out.close();
-	   
 	   In.close();
    } 
    

@@ -15,7 +15,7 @@ public class linkedListTest {
 	/**
 	 * A function to test if the linked list is empty.
 	 */
-	@Test
+	@Test 
 	public void testIsEmpty() {
 		//Initialize a new class object to test
 		linkedList prisoners = new linkedList();
@@ -55,28 +55,27 @@ public class linkedListTest {
 	 * has been deleted.
 	 */
 	@Test
-	public void testDeleteAt() {
+	public void testDeleteAt() { 
 		//Initialize a new class object to use
-		linkedList prisoners = new linkedList();
-		//insert 5 nodes
+		linkedList prisoners = new linkedList(); 
+		Node toDelete = new Node(); 
+		//insert 5 nodes 
 		prisoners.insert(5);
 		//check size is 5
 		assertEquals(5, prisoners.getNodeCount()); 
 		/**
-		 * asserts below check deleteAt function and
+		 * asserts below check deleteAt function and 
 		 * their expected results
-		 */
-		assertEquals(4, prisoners.deleteAt(4));
-		
-		assertEquals(5, prisoners.deleteAt(5));
-		
-		assertEquals(2, prisoners.deleteAt(2));
-		
-		assertEquals(3, prisoners.deleteAt(3)); 
-		
-		assertEquals(1, prisoners.deleteAt(1));
+		 */ 
+		toDelete = prisoners.head; 
+		for(int i = 4; i > 0; i--)
+		{
+			assertEquals(i, prisoners.deleteAt(toDelete));
+		}
 		//tests return 0 function 
-		assertEquals(0, prisoners.deleteAt(1));
+		assertEquals(0, prisoners.deleteAt(toDelete));
+		assertEquals(0, prisoners.deleteAt(toDelete));
+		
 	}
 
 }

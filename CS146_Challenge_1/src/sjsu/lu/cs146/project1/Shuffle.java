@@ -21,7 +21,6 @@ public class Shuffle
 	
 	//Pseudo-random number to be used for Fisher-Yates shuffle
     private Random r = new Random(); 
-    
     //String to put song name into for inserting into String array
 	private String songName;
 	
@@ -38,7 +37,7 @@ public class Shuffle
    {
 	   
 	   //input stream that reads in info from playlist.txt
-	   BufferedReader In = new BufferedReader (new FileReader("Playlist.txt"));
+	   BufferedReader In = new BufferedReader (new FileReader("Playlist.txt")); 
 	   
 	   while((songName = In.readLine()) != null)
 	   {
@@ -46,9 +45,7 @@ public class Shuffle
 		  
 		   i++;
 	   }
-	   
 	   In.close();
-	   
 	   return songPlayList;
    }
    
@@ -62,7 +59,6 @@ public class Shuffle
    {
        
 	   r.setSeed(20);
-       
        /*
         * For loop is shuffle the String array according to the Fisher-Yates
         * algorithm. It uses the seeded pseudorandom number as the index to be 
@@ -83,9 +79,7 @@ public class Shuffle
        
        //A stream to write the newly shuffled playlist to the file
        BufferedWriter writeToFile = null;
-       
-       writeToFile = new BufferedWriter(new FileWriter("LuJanicePLaylist.txt"));
-   
+       writeToFile = new BufferedWriter(new FileWriter("LuJanicePlaylist.txt"));
        /**
         * Writes all the songs held in the String array to the 
         * new text file
@@ -93,12 +87,9 @@ public class Shuffle
        for(int j = 0; j < songPlayList.length; j++)
        {
     	   writeToFile.write(songPlayList[j]);
-    	   
     	   writeToFile.newLine();
        }
-       
        writeToFile.flush();
-       
        writeToFile.close();
    }
    

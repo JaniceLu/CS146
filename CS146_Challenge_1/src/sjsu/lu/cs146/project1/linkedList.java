@@ -18,9 +18,7 @@ public class linkedList {
 	 */
 	linkedList() {
 		head = null;
-		
 		tail = null;
-		
 		nodeCount = 0; 
 	} 
 	  
@@ -32,9 +30,8 @@ public class linkedList {
 	 * 		   FALSE if there are nodes in the array or 
 	 *         either/both head and tail are not null
 	 */
-	public boolean isEmpty() {
-		
-		if((getNodeCount() == 0) && (head == null) && (tail == null))
+	public boolean isEmpty() { 
+		if(getNodeCount() == 0)
 		{
 			return true;
 		}
@@ -68,23 +65,17 @@ public class linkedList {
 			temp = new Node();
 			
 			head = temp;
-			
 			tail = head;
-			
 			tail.prev = head;
-			
 			tail.next = head;
 			
 			head.prev = tail;
-			
 			head.next = tail;
-			
-			tail.number = 1;
-			
+		
+			tail.number = 1;	
 			head.number = tail.number;
 			
 			setNodeCount(getNodeCount() + 1);
-			
 			n--;
 		}
 		//A placeholder for the head node
@@ -100,25 +91,19 @@ public class linkedList {
 			{
 				last = last.next;
 			}
-			
 			temp = new Node();
 			
 			last.next = temp;
-			 
 			temp.prev = last;
-			
 			temp.next = head;
-			
 			head.prev = temp;
 			
 			setNodeCount(getNodeCount()+1);
 			
 			temp.number = getNodeCount();
-			
+
 			tail = temp;
-			
 			tail.prev = temp.prev;
-			
 			tail.next = head;
 		} 
 		
@@ -132,56 +117,42 @@ public class linkedList {
 	 * @return the node number that was deleted or
 	 * 		   zero if there are no nodes 
 	 */
-	public int deleteAt(int position) {
+	public int deleteAt(Node position) {
 		/**
 		 * A node to represent the current node the function
 		 * is looking at to determine if it is the node to 
 		 * be deleted.
 		 */
-		Node current = head;
-		//A node to represent tail when assigning values
-		Node previous = head.prev;
-		//An integer to return as the node number to be deleted
-		int deleted;
+		
 		/**
-		 * Find the correct node to be deleted then remove it 
-		 * from the linked list. 
-		 */
+		 * Delete node specified in parameter in the linked list 
+		 */  
 		if(getNodeCount() == 0)
 		{
-			return 0;
+			return 0;  
 		}
-		while(current.number != position)
-		{
-			current = current.next;
-			
-			previous = previous.next;
-		} 
-		
-		deleted = current.number;
-		
-		if(deleted == head.number)
+		if(position == head)
 		{
 			head = head.next;
-			
-			head.prev = previous;
-			
 			tail.next = head;
+			position = null; 
 		}
-		else if(deleted == tail.number)
+		else if(position == tail)
 		{
-			tail = tail.prev;
+			tail.prev.next = head;
+			head.prev = tail.prev; 
+			position = null;
 		}
-		
-		previous.next = current.next; 
-		
-		current = current.next;
-		
-		current.prev = previous;
+		else
+		{
+			position.prev.next = position.next;
+			position.next.prev = position.prev;
+			position = null;
+		}
 		
 		setNodeCount(getNodeCount() - 1);
 		
-		return deleted; 
+		return getNodeCount(); 
 		 
 	}
 	

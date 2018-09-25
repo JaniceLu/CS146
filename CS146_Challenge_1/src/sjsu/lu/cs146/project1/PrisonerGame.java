@@ -44,10 +44,12 @@ public class PrisonerGame {
 	public int winFreedom(int elimFactor) 
 	{
 		/*
-		 * the number to be assigned the deleted node number
-		 * and assigned to later
+		 * Since toDelete is the first node and the elimFactor
+		 * counts starting the first node, we must have a
+		 * special for loop for the first deletion.
+		 * 
 		 */
-		int deletedNumber = 0;  
+		int iteration = 0;
 		//the very last node remaining in the queue
 		int winner = 0;  
 		//A placeholder Node to determine which node to delete
@@ -57,20 +59,26 @@ public class PrisonerGame {
 		 * so long as the linkedList is larger than 1
 		 */
 		while(prisoners.getNodeCount() != 1) 
-		{
-			for(int i = 0; i < elimFactor; i++)
-			{ 
-				toDelete = toDelete.next;  
+		{ 
+			if(iteration == 0)
+			{
+				for(int i = 0; i < elimFactor; i++) 
+				{ 
+					toDelete = toDelete.next;  
+				}
+				iteration++; 
 			}
-			
-			deletedNumber = toDelete.number;
-			
-			toDelete = toDelete.next;  
-			
-			deletedNumber = prisoners.deleteAt(deletedNumber);
+			else 
+			{
+				for(int i = 0; i < elimFactor+1; i++) 
+				{ 
+					toDelete = toDelete.next;  
+				}
+			}
+			prisoners.deleteAt(toDelete); 
 		}    
-		
-		winner = prisoners.tail.number;
+	   
+		winner = prisoners.head.number;
 		
 		return winner; 
 	} 
