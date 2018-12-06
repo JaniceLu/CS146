@@ -1,5 +1,9 @@
 package sjsu.lu.cs146.project3;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class RedBlackTree<Key extends Comparable<Key>> {	
 	private static RedBlackTree.Node<String> root;
 
@@ -139,8 +143,6 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 		add.leftChild = null;
 		add.rightChild = null;
-		add.color = 0;
-		add.isRed = true;
 		fixTree(add);
 		return;
 	}
@@ -257,155 +259,100 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		n.parent = y;
 	}
 	
+	/**
+	 * method fixes the RedBlack Tree to be in accordance to
+	 * RedBlack Tree rules
+	 * @param current - the current node to be fixed
+	 */
 	public void fixTree(RedBlackTree.Node<String> current) 
 	{
-		//RedBlackTree.Node<String> temp = null;
-		if(current.equals(root))
+		RedBlackTree.Node<String> parentNode = null;
+		RedBlackTree.Node<String> grandParentNode = null;
+		
+		/*
+		 * make sure node fulfills the following conditions:
+		 * 1. current is not root
+		 * 2. 
+		 */
+		while((current != root) 
+				&& (current.color == 0)
+				&& (current.isRed == true) 
+				&& (current.parent.isRed)
+				&& (current.parent.color == 0))
 		{
-			root.color = 1;
-			root.isRed = false;
-			return;
-		}
-		else if((current.parent.color == 1) && (current.parent.isRed == false))
-		{
-			return;
-		}
-		else if((current.color == 0) && (current.isRed == true) 
-				&& (current.parent.color == 0) && (current.parent.isRed == true))
-		{
-			if(getAunt(current) == null || getAunt(current).color == 1)
+			parentNode = current.parent; 
+			grandParentNode = current.parent.parent;
+			//deals with all parents that are to the left of the grandparent
+			if(parentNode.equals(grandParentNode.leftChild))
 			{
-				if(current.equals(current.parent.rightChild))
+				RedBlackTree.Node<String> auntNode = grandParentNode.rightChild;
+				//case one: aunt is red and parent is red
+				if((auntNode != null) 
+						&& (auntNode.isRed) 
+						&& (auntNode.color == 0))
 				{
-					if(current.parent == root)
+					grandParentNode.color = 0;
+					grandParentNode.isRed = true;
+					parentNode.color = 1;
+					parentNode.isRed = false;
+					auntNode.color = 1;
+					auntNode.isRed = false;
+					current = grandParentNode;
+				}
+				else
+				{
+					//case two: node is right child of parent
+					//          needs left rotation
+					if(current.equals(parentNode.rightChild))
 					{
-						rotateLeft(current.parent);
-						current = current.parent; 
-						fixTree(current.parent);  
-					} 
-					else if((current.parent.parent.leftChild != null) && (current.parent.equals(current.parent.parent.leftChild)))
-					{
-						rotateLeft(current.parent);
-						current = current.parent; 
-						fixTree(current.parent);
-					}
-				}
-				else if((current.parent.equals(current.parent.parent.rightChild)) 
-						&& (current.equals(current.parent.leftChild)))
-				{
-					rotateRight(current.parent);
-					fixTree(current.parent);
-				} 
-				else if((current.equals(current.parent.leftChild)) 
-						&& (current.parent.equals(current.parent.parent.leftChild)))
-				{
-					current.parent.color = 1;
-					current.parent.isRed = false;
-					current.parent.parent.color = 0; 
-					current.parent.parent.isRed = true;
-				}
-				else if((current.equals(current.parent.rightChild)) 
-						&& (current.parent.equals(current.parent.parent.rightChild)))
-				{
-					current.parent.color = 1;
-					current.parent.isRed = false;
-					current.parent.parent.color = 0;
-					current.parent.parent.isRed = true;
-				}
-			}
-			else if((getAunt(current).isRed) 
-					&& (getAunt(current).color == 0))
-			{
-				current.parent.color = 1;
-				current.parent.isRed = false;
-				getAunt(current).color = 1;
-				getAunt(current).isRed = false;
-				current.parent.parent.color = 0;
-				current.parent.parent.isRed = true;
-				fixTree(current);
-			}
-		} 
-	/*	while((current != root) && (current.parent.isRed) && (current.parent.color == 0))
-		{
-			
-			/*if(current.parent.equals(current.parent.parent.leftChild))
-			{
-				temp = current.parent.parent.rightChild;
-				if(temp == null || temp.color == 1)
-				{
-					return;
-				}
-				else if((temp.color == 0) && (temp != null))
-				{
-					current.parent.color = 1;
-					current.parent.isRed = false;
-					temp.color = 1;
-					temp.isRed = false;
-					current.parent.parent.color = 0;
-					current.parent.parent.isRed = true;
-					current = current.parent.parent;
-				}
-				else 
-				{
-					if(current.equals(current.parent.rightChild))
-					{
-						current = current.parent; 
+						current = parentNode;
 						rotateLeft(current);
 					}
-					current.parent.color = 1;
-					current.isRed = false;
-					current.parent.parent.color = 0;
-					current.parent.parent.isRed = true;
-					rotateRight(current.parent.parent);
+					//case three: node is left child of parent
+					//            needs right rotation
+					parentNode.color = 1;
+					parentNode.isRed = false;
+					grandParentNode.color = 0;
+					grandParentNode.isRed = true;
+					rotateRight(grandParentNode);
 				}
 			}
+			//deals with all parents that are to the left of the grandparent
 			else
 			{
-				if(current.parent.equals(current.parent.parent.rightChild))
+				RedBlackTree.Node<String> auntNode = grandParentNode.leftChild;
+				
+				if((auntNode != null) 
+						&& (auntNode.isRed) 
+						&& (auntNode.color == 0))
 				{
-					temp = current.parent.parent.leftChild;
-					if(temp == null || temp.color == 1)
-					{
-						return;
-					}
-					else if((temp.color == 0) && (temp != null))
-					{
-						current.parent.color = 1;
-						current.parent.isRed = false;
-						temp.color = 1;
-						temp.isRed = false;
-						current.parent.parent.color = 0;
-						current.parent.parent.isRed = true;
-						current = current.parent.parent;
-					}
-					else 
-					{ 
-						if(current.equals(current.parent.leftChild))
-						{
-							current = current.parent;
-							rotateRight(current);
-						}
-						current.parent.color = 1;
-						current.parent.isRed = false;
-						current.parent.parent.color = 0;
-						current.parent.parent.isRed = true;
-						rotateLeft(current.parent.parent);
-						
-					}
+					grandParentNode.color = 0;
+					grandParentNode.isRed = true;
+					parentNode.color = 1;
+					parentNode.isRed = false;
+					auntNode.color = 1;
+					auntNode.isRed = false;
+					current = grandParentNode;
 				}
-			}*/
-		/*} 
-		 * 
-		 */
+				else
+				{
+					//case two: node is left child of parent
+					//          needs right rotation
+					if(current.equals(parentNode.leftChild)) 
+					{
+						current = parentNode;
+						rotateRight(current);
+					}
+					parentNode.color = 1;
+					parentNode.isRed = false;
+					grandParentNode.color = 0;
+					grandParentNode.isRed = true;
+					rotateLeft(grandParentNode);
+				}
+			}
+		} 
 		root.color = 1;
 		root.isRed = false;
-	}
-	
-	public boolean isEmpty(RedBlackTree.Node<String> n){
-		if (n.key == null){
-			return true;
-		}
-		return false;
 	}
 	 
 	public boolean isLeftChild(RedBlackTree.Node<String> parent, RedBlackTree.Node<String> child)
@@ -436,6 +383,6 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 	  	v.visit(n);
 	  	preOrderVisit(n.leftChild, v);
 	  	preOrderVisit(n.rightChild, v);
-	}	
+	}
 }
 
