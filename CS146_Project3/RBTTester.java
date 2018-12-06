@@ -2,6 +2,10 @@ package sjsu.lu.cs146.project3;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import org.junit.Test;
 
 
@@ -36,7 +40,59 @@ public class RBTTester {
             
     }
     
-    //add tester for spell checker
+	@Test
+    //tester for spell checker
+    public void spellCheck()
+    {
+    	File input = new File("dictionary.txt");
+    	File poem = new File("The_Raven.txt");
+		try
+		{
+			Scanner in = new Scanner(input);
+			
+			RedBlackTree<String> dictionary = new RedBlackTree<String>();
+			long start =  System.currentTimeMillis();
+			while(in.hasNextLine())
+			{
+				String data = in.nextLine();
+				dictionary.insert(data);
+			}
+			long end = System.currentTimeMillis();
+			long processTime = end - start;
+			System.out.println("Dictionary filled in: "+ processTime + " milliseconds");
+			in.close();
+			
+			in = new Scanner(poem);
+			long checkStart = System.currentTimeMillis(); 
+			int count = 0;
+			while(in.hasNextLine())
+			{
+				Scanner line = new Scanner(in.nextLine());
+				while(line.hasNext())
+				{
+					String word = line.next();
+					word = word.replaceAll("[\\,\\.\\—\\;\\!\\\"\\']", "");
+					RedBlackTree.Node<String> checker = dictionary.lookup(word);
+					if(checker == null)
+					{
+						System.out.println("Misspelled: " + word);
+						count++;
+					}
+				}
+			}
+			long checkEnd = System.currentTimeMillis();
+			processTime = end - start;
+			System.out.printlm()
+			System.out.println("Spell check finished in: "+ processTime + " milliseconds");
+			in.close();
+			
+		}
+		catch(FileNotFoundException e) 
+		{
+			e.printStackTrace();
+			System.out.println("File could not be read.");
+		}
+    }
     
     public static String makeString(RedBlackTree<String> t)
     {
@@ -53,9 +109,10 @@ public class RBTTester {
     }
 
     /**
-     * Had to change this 
-     * @param t
-     * @return 
+     * Had to change this because NIL leafs were not initialized 
+     * and kept as nulls, so it had to handle the root print
+     * @param t - a RedBlackTree
+     * @return a string with the expected output for the JUnit test
      */
     public static String makeStringDetails(RedBlackTree<String> t) 
     {
